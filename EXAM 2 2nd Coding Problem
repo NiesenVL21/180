@@ -1,0 +1,41 @@
+# Importing necessary libraries
+import pandas as pd
+import statsmodels.api as sm
+
+# Step 1: Load the dataset
+file_path = r'C:\Users\NiesenVL21\Downloads\Restaurant Revenue.xlsx'
+restaurant_data = pd.read_excel(file_path)
+
+# Step 2: Data Preprocessing
+# Since we're doing multiple regression, we'll select the relevant columns as features and target
+features = ['Number_of_Customers', 'Menu_Price', 'Marketing_Spend', 'Average_Customer_Spending', 'Promotions', 'Reviews']
+target = 'Monthly_Revenue'
+
+# Step 3: Splitting features and target
+X = restaurant_data[features]
+y = restaurant_data[target]
+
+# Step 4: Adding constant term for intercept
+X = sm.add_constant(X)
+
+# Step 5: Fitting the regression model
+model = sm.OLS(y, X).fit()
+
+# Step 6: Displaying regression summary
+print(model.summary())
+
+# Step 7: Predicting monthly revenue
+# You can input your own values for the features to predict monthly revenue
+# For example:
+new_data = {
+    'const': 1,
+    'Number_of_Customers': 1500,
+    'Menu_Price': 15,
+    'Marketing_Spend': 2000,
+    'Average_Customer_Spending': 20,
+    'Promotions': 1,
+    'Reviews': 100
+}
+new_data_series = pd.Series(new_data)
+predicted_revenue = model.predict(new_data_series)
+print("Predicted Monthly Revenue:", predicted_revenue)
