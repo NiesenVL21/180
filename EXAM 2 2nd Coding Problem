@@ -39,3 +39,4 @@ new_data = {
 new_data_series = pd.Series(new_data)
 predicted_revenue = model.predict(new_data_series)
 print("Predicted Monthly Revenue:", predicted_revenue)
+print("Go Brewers!")
