@@ -1,0 +1,54 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+# Read the spreadsheet into a DataFrame
+file_path = "C:/Users/NiesenVL21/Downloads/baseball.xlsx"
+data = pd.read_excel(file_path)
+
+# Check if the data is loaded properly
+print("Data loaded successfully:")
+print(data.head())
+
+# Define features (input variables)
+features = ['Runs Scored', 'Runs Allowed', 'Wins', 'OBP', 'SLG', 'Team Batting Average']
+
+# Define target variable based on playoff qualification rule
+# Let's assume a team qualifies for the playoffs if they have more than 90 wins
+data['Playoff'] = data['Wins'] > 90
+
+# Separate features and target variable
+X = data[features]
+y = data['Playoff']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize logistic regression model
+model = LogisticRegression()
+
+# Train the model using the training sets
+model.fit(X_train, y_train)
+
+# Make predictions on the testing set
+predictions = model.predict(X_test)
+
+# Calculate accuracy of the model
+accuracy = accuracy_score(y_test, predictions)
+
+# Print the accuracy of the model
+print("\nAccuracy of the model:", accuracy)
+
+# Provide interpretation of the accuracy
+if accuracy > 0.7:
+    print("The model's accuracy is quite high, indicating it performs well in predicting playoff qualification.")
+else:
+    print("The model's accuracy is relatively low, suggesting it may not be very reliable in predicting playoff qualification.")
+
+# Additional resources for students to learn more about Python and baseball analytics
+print("\nAdditional Resources:")
+print("- Python Documentation: https://docs.python.org/3/")
+print("- Pandas Documentation: https://pandas.pydata.org/pandas-docs/stable/index.html")
+print("- Scikit-learn Documentation: https://scikit-learn.org/stable/documentation.html")
+print("- Baseball Analytics with Python: https://www.springer.com/gp/book/9781484258216")
